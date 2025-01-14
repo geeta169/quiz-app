@@ -7,7 +7,7 @@ export enum QuizType {
   Reasoning = 'Logical Reasoning Quiz',
 }
 export class CreateQuizDTO {
-  id: string;
+  // id: string;
 
   @IsNotEmpty()
   @IsEnum(QuizType)

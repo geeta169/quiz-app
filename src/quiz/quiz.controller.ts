@@ -40,7 +40,7 @@ export class QuizController {
   @Post(':quizId/answer')
   submitAnswer(
     @Param('quizId') quizId: string,
-    @Body() answerQuestion: AnswerQuestionDto,
+    @Body() answerQuestion: AnswerQuestionDto
   ): boolean {
     return this.quizService.submitAnswer(quizId, answerQuestion);
   }
@@ -48,7 +48,7 @@ export class QuizController {
   @Post(':quizId/score/:userId')
   getUserScore(
     @Param('quizId') quizId: string,
-    @Param('userId') userId: string,
+    @Param('userId') userId: string
   ): number {
     const score = this.quizService.calculateScore(userId, quizId);
     const totalQuestions = this.quizService.getTotalQuestions(quizId);

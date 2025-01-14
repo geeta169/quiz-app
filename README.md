@@ -55,3 +55,7 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+
+## Documentation
+
+The API documentation can be found on (http://localhost:3000/quiz-api)

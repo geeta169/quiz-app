@@ -14,7 +14,7 @@ interface UserAnswer {
 
 @Injectable()
 export class QuizService {
-  private quizzes: CreateQuizDTO[] = [];
+  private quizzes = [];
 
   private userAnswers: { [userId: string]: UserAnswer[] } = {}; // Store user answers by userId
 
@@ -52,7 +52,7 @@ export class QuizService {
   }
 
   // Get a quiz by ID
-  getQuiz(quizId: string): QuizResponse {
+  getQuiz(quizId: string) {
     const quiz = this.quizzes.find((q) => q.id === quizId);
     if (!quiz) throw new NotFoundException('Quiz not found');
     return plainToClass(QuizResponse, quiz);
@@ -66,10 +66,9 @@ export class QuizService {
   // Answer a question in the quiz
   submitAnswer(
     quizId: string,
-    { userId, questionId, answer }: AnswerQuestionDto,
+    { userId, questionId, answer }: AnswerQuestionDto
   ): boolean {
     const quiz = this.quizzes.find((q) => q.id === quizId);
-    console.log(quiz);
     const question = quiz.questions.find((q) => q.id === questionId);
     if (!question) throw new NotFoundException('Question not found');
 
@@ -84,7 +83,7 @@ export class QuizService {
   }
 
   calculateScore(userId: string, quizId: string): number {
-    const quiz = this.getQuiz(quizId);
+    const quiz = this.quizzes.find((q) => q.id === quizId);
 
     const userAnswerData = this.userAnswers[userId];
     if (!userAnswerData)
@@ -95,7 +94,7 @@ export class QuizService {
     // Compare the answers
     userAnswerData.forEach((userAnswer) => {
       const question = quiz.questions.find(
-        (q) => q.id === userAnswer.questionId,
+        (q) => q.id === userAnswer.questionId
       );
       if (question?.answer === userAnswer?.answer) {
         correctAnswers++;
@@ -108,7 +107,6 @@ export class QuizService {
   // Get total number of questions in a quiz
   getTotalQuestions(quizId: string): number {
     const quiz = this.getQuiz(quizId);
-    console.log('quiz', quiz);
     return quiz.questions.length;
   }
 }
